@@ -33,7 +33,15 @@ Node.js と Visual Studio Codeをインストールします。
 [詳しく見る>>](./0.install.md)
 
 ### 1. TypeScriptトランスパイル環境を作成する
+
+次に、TypeScriptを翻訳して、JavaScriptに翻訳(トランスパイル)できる環境を構築します。
+`npm` のパッケージ `typescript` をインストールします。
+この`typescript` だけで翻訳することができます。
+
+[詳しく見る>>](./1.init-typescript.md)
+
 ### 2. フォーマッタを有効にする
+
 ### 3. 静的解析を有効にする
 ### 4. テストフレームワークを有効にする
 ### 5. バンドラ作成環境を構築する

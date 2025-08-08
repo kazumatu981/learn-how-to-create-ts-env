@@ -11,12 +11,16 @@ export default defineUserConfig({
             link: '/index.html'
         },
         {
-            text: '前提となるソフトウェアをインストールする',
+            text: '0.前提となるソフトウェアをインストールする',
             link: '0.install.html'
         },
         {
-            text: 'TypeScriptトランスパイル環境を作成する',
+            text: '1.TypeScriptトランスパイル環境を作成する',
             link: '1.init-typescript.html'
+        },
+        {
+            text:'2. フォーマッタを有効にする',
+            link:'2.formatter.html'
         }
     ],
     sidebarDepth: 1,
