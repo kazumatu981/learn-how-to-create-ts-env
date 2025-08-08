@@ -8,27 +8,37 @@ export default defineUserConfig({
   theme: hopeTheme({
     sidebar: [
         {
+            icon: 'home',
             text: 'TypeScript開発環境の作り方',
             link: '/index.html'
         },
         {
+            icon:"rocket",
             text: '構築手順',
             children: [
                 {
-                    text: '0.前提となるソフトウェアをインストールする',
+                    icon: 'download',
+                    text: 'Install',
                     link: '0.install.html'
                 },
                 {
-                    text: '1.TypeScriptトランスパイル環境を作成する',
+                    icon: 'language',
+                    text: 'Init project',
                     link: '1.init-typescript.html'
                 },
                 {
-                    text:'2. フォーマッタを有効にする',
+                    icon:'list-check',
+                    text:'formatter',
                     link:'2.formatter.html'
                 }
             ]
         }
     ],
+    plugins:{
+        icon:{
+            assets: "fontawesome-with-brands",
+        }
+    },
     sidebarDepth: 1,
   }),
 
