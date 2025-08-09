@@ -1,6 +1,7 @@
 import { viteBundler } from '@vuepress/bundler-vite'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
+import { prismjsPlugin } from '@vuepress/plugin-prismjs'
 
 export default defineUserConfig({
   bundler: viteBundler(),
@@ -21,4 +22,9 @@ export default defineUserConfig({
     ],
     sidebarDepth: 1,
   }),
+  plugins: [
+    prismjsPlugin({
+      theme: 'ghcolors',
+    }),
+  ],
 })
