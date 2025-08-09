@@ -14,7 +14,6 @@ export default defineUserConfig({
             link: '/index.html'
         },
         {
-            icon:"rocket",
             text: '構築手順',
             children: [
                 {
@@ -52,7 +51,8 @@ export default defineUserConfig({
             // 使用するハイライトライブラリを指定
             // ここではPrism.jsを使用
             type: 'prismjs',
-            theme:"ghcolors"
+            theme:"ghcolors",
+            notationDiff: true,
         }
     },
     plugins:{
