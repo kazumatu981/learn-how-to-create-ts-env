@@ -47,6 +47,14 @@ export default defineUserConfig({
             ]
         }
     ],
+    markdown: {
+        highlighter: {
+            // 使用するハイライトライブラリを指定
+            // ここではPrism.jsを使用
+            type: 'prismjs',
+            theme:"ghcolors"
+        }
+    },
     plugins:{
         icon:{
             assets: "fontawesome-with-brands",
@@ -54,9 +62,4 @@ export default defineUserConfig({
     },
     sidebarDepth: 1,
   }),
-  plugins: [
-    prismjsPlugin({
-      theme: 'ghcolors',
-    }),
-  ],
 })
