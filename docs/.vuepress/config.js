@@ -30,7 +30,19 @@ export default defineUserConfig({
                     icon:'list-check',
                     text:'formatter',
                     link:'2.formatter.html'
-                }
+                },
+                {
+                    text:'linter',
+                    link:'3.linter.html'
+                },
+                {
+                    text:'unit test',
+                    link:'4.unit-test.html'
+                },
+                {
+                    text:'bundler',
+                    link:'5.bundler.html'
+                },
             ]
         }
     ],
