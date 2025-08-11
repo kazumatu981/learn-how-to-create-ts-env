@@ -54,12 +54,15 @@ export default defineUserConfig({
         }
     ],
     markdown: {
+        tabs: true,
         highlighter: {
             // 使用するハイライトライブラリを指定
             // ここではPrism.jsを使用
             type: 'prismjs',
             theme:"ghcolors",
             notationDiff: true,
+            notationFocus: true,
+            notationHighlight:true
         }
     },
     plugins:{
@@ -68,7 +71,7 @@ export default defineUserConfig({
         },
         components:{
             components:[
-                'Badge'
+                'Badge',
             ]
         }
     },
