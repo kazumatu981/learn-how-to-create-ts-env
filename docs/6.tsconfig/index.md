@@ -69,6 +69,3 @@ TypeScriptにおける翻訳(トランスパイル)の動作は `tsconfig.json` 
 | ブラウザ（type=module） | `"ES2020"` | `"ES2020"` | `"Bundler"` |
 | esbuild バンドル前提 | `"ESNext"` | `"ESNext"` | `"Bundler"` |
 
----
-
-もし DSL や VuePress のような特殊な構成に合わせたい場合、さらに細かい調整もできますよ。どの環境で使うか、もう少し教えてもらえたら、最適な組み合わせを一緒に設計できます。

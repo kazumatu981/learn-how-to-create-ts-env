@@ -32,18 +32,25 @@ export default defineUserConfig({
                     link:'2.formatter.html'
                 },
                 {
+                    icon:'wand-magic-sparkles',
                     text:'linter',
                     link:'3.linter.html'
                 },
                 {
+                    icon: 'flask',
                     text:'unit test',
                     link:'4.unit-test.html'
                 },
                 {
+                    icon:'cubes',
                     text:'bundler',
                     link:'5.bundler.html'
                 },
             ]
+        },
+        {
+            text: '`tsconfig.json`の設定',
+            link: '6.tsconfig/index.html'
         }
     ],
     markdown: {
@@ -58,6 +65,11 @@ export default defineUserConfig({
     plugins:{
         icon:{
             assets: "fontawesome-with-brands",
+        },
+        components:{
+            components:[
+                'Badge'
+            ]
         }
     },
     sidebarDepth: 1,
