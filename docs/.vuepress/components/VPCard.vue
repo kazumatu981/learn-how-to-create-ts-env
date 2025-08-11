@@ -1,5 +1,5 @@
 <template>
-  <div class="vp-card" @click="navigate">
+  <div class="vp-card" @click="openLink">
     <img v-if="image" :src="image" alt="Card image" class="vp-card-image" />
     <div class="vp-card-content">
       <h3 class="vp-card-title">{{ title }}</h3>
@@ -12,9 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 
-defineProps<{
+const props = defineProps<{
   title: string
   description?: string
   image?: string
@@ -22,17 +21,16 @@ defineProps<{
   tags?: string[]
 }>()
 
-const router = useRouter()
-
-function navigate() {
-  if (link) router.push(link)
+function openLink() {
+  if (props.link) {
+    window.open(props.link, '_blank');  // Open link in a new tab
+  }
 }
 </script>
 
 <style scoped>
 .vp-card {
   display: flex;
-  flex-direction: column;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
@@ -46,7 +44,7 @@ function navigate() {
 }
 
 .vp-card-image {
-  width: 100%;
+  width: 20%;
   height: auto;
   object-fit: cover;
 }

@@ -63,7 +63,8 @@ export default defineUserConfig({
             notationDiff: true,
             notationFocus: true,
             notationHighlight:true
-        }
+        },
+        
     },
     plugins:{
         icon:{
@@ -73,8 +74,11 @@ export default defineUserConfig({
             components:[
                 'Badge',
             ]
-        }
+        },
     },
+    
+    
     sidebarDepth: 1,
   }),
+  
 })
