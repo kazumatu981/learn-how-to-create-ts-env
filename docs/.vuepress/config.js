@@ -78,7 +78,7 @@ export default defineUserConfig({
     },
     
     
-    sidebarDepth: 1,
+    sidebarDepth: 2,
   }),
   
 })
