@@ -1,8 +1,6 @@
 import { viteBundler } from '@vuepress/bundler-vite'
-// import { defaultTheme } from '@vuepress/theme-default'
 import { hopeTheme } from "vuepress-theme-hope";
 import { defineUserConfig } from 'vuepress'
-import { prismjsPlugin } from '@vuepress/plugin-prismjs'
 
 export default defineUserConfig({
   bundler: viteBundler(),
@@ -54,13 +52,17 @@ export default defineUserConfig({
         }
     ],
     markdown: {
+        tabs: true,
         highlighter: {
             // 使用するハイライトライブラリを指定
             // ここではPrism.jsを使用
             type: 'prismjs',
             theme:"ghcolors",
             notationDiff: true,
-        }
+            notationFocus: true,
+            notationHighlight:true
+        },
+        
     },
     plugins:{
         icon:{
@@ -68,10 +70,13 @@ export default defineUserConfig({
         },
         components:{
             components:[
-                'Badge'
+                'Badge',
             ]
-        }
+        },
     },
-    sidebarDepth: 1,
+    
+    
+    sidebarDepth: 2,
   }),
+  
 })
