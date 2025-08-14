@@ -78,5 +78,4 @@ export const theme = hopeTheme({
     sidebar,
     markdown,
     plugins,
-    // sidebarDepth: 2,
 });
