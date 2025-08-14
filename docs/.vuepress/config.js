@@ -60,7 +60,8 @@ export default defineUserConfig({
             theme:"ghcolors",
             notationDiff: true,
             notationFocus: true,
-            notationHighlight:true
+            notationHighlight:true,
+            notationWordHighlight: true,
         },
         
     },
