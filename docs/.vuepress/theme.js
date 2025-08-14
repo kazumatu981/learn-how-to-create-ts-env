@@ -8,36 +8,37 @@ const sidebar = [
     },
     {
         text: '構築手順',
+        link: '/process/index.html',
         children: [
             {
                 icon: 'download',
                 text: 'Install',
-                link: '0.install.html'
+                link: '/process/0.install.html'
             },
             {
                 icon: 'language',
                 text: 'Init project',
-                link: '1.init-typescript.html'
+                link: '/process/1.init-typescript.html'
             },
             {
                 icon:'list-check',
                 text:'formatter',
-                link:'2.formatter.html'
+                link:'/process/2.formatter.html'
             },
             {
                 icon:'wand-magic-sparkles',
                 text:'linter',
-                link:'3.linter.html'
+                link:'/process/3.linter.html'
             },
             {
                 icon: 'flask',
                 text:'unit test',
-                link:'4.unit-test.html'
+                link:'/process/4.unit-test.html'
             },
             {
                 icon:'cubes',
                 text:'bundler',
-                link:'5.bundler.html'
+                link:'/process/5.bundler.html'
             },
         ]
     },
