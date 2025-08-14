@@ -3,7 +3,9 @@
     "language": "en",
     "words": [
         // コンポーネント名
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        // プロパティ名
+        "outbase",
     ],
     "ignorePaths": [
         "node_modules",
