@@ -7,43 +7,52 @@ const sidebar = [
         link: '/index.html'
     },
     {
-        text: '構築手順',
+        icon: 'person-biking',
+        text: '基本環境の構築',
+        link: '/basic/index.html',
         children: [
             {
                 icon: 'download',
                 text: 'Install',
-                link: '0.install.html'
+                link: '/basic/install.html'
             },
             {
                 icon: 'language',
                 text: 'Init project',
-                link: '1.init-typescript.html'
-            },
-            {
-                icon:'list-check',
-                text:'formatter',
-                link:'2.formatter.html'
-            },
-            {
-                icon:'wand-magic-sparkles',
-                text:'linter',
-                link:'3.linter.html'
-            },
-            {
-                icon: 'flask',
-                text:'unit test',
-                link:'4.unit-test.html'
+                link: '/basic/init-typescript.html'
             },
             {
                 icon:'cubes',
-                text:'bundler',
-                link:'5.bundler.html'
+                text:'Bundler',
+                link:'/basic/bundler.html'
+            },
+        ]
+    },
+    {
+        icon: 'rocket',
+        text: 'より良い環境を目指して',
+        link: '/advanced/index.html',
+        children: [
+            {
+                icon:'list-check',
+                text:'Formatter',
+                link:'/advanced/formatter.html'
+            },
+            {
+                icon:'wand-magic-sparkles',
+                text:'Linter',
+                link:'/advanced/linter.html'
+            },
+            {
+                icon: 'flask',
+                text:'Unit test',
+                link:'/advanced/unit-test.html'
             },
         ]
     },
     {
         text: '`tsconfig.json`の設定',
-        link: '6.tsconfig/index.html'
+        link: 'tsconfig/index.html'
     }
 ];
 

@@ -233,7 +233,7 @@ my-project
 つまり、`esbuild` は`typescript`を独自にビルドしています。
 ここで「ビルド」と記述しましたが、`esbuild` では、型チェックは行いません。
 型チェックは必ず
-[TypeScriptトランスパイル環境を作成する](./1.init-typescript.md)
+[TypeScriptトランスパイル環境を作成する](./init-typescript.md)
 で準備した `npm run build:check` を使うようにしてください。
 :::
 
