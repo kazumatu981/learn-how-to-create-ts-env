@@ -66,10 +66,6 @@ my-project
 
 ## `tsconfig.json` を作成する
 
-```bash
-npx tsc --init
-```
-
 ```text :no-line-numbers
 my-project
  + node_modules
@@ -80,12 +76,22 @@ my-project
 
 ```json
 {
-  "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist/esm",
-  }
+    "compilerOptions": {
+        "noEmit": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": ["ES2020", "DOM"],
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": ["node_modules", "dist"]
 }
 ```
+
+[tsconfig - TypeScript: JavaScript With Syntax For Types.](https://www.typescriptlang.org/tsconfig/)
 
 ## TypeScriptを作ってみる
 
