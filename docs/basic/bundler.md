@@ -208,6 +208,16 @@ my-project
 エディタで開くと、TypeScriptの型情報がなくなり、`import`/`export`もなくなっていることが確認できます。
 また同様に `release` モードで実行すると、バンドルのサイズが十分小さくなるのが確認できます。
 
+## クリーン用パッケージのインストール <Badge text="オプション" type="tip" vertical="top" />
+
+オプションとして、古いビルド成果物をクリーンするためのパッケージをインストールします。
+`rimraf` は簡単にディレクトリを再帰的に削除するパッケージです。
+`npm run build:clean` として、`dist` 以下を削除するようにします。
+
+```bash :no-line-numbers
+npm install -D rimraf
+```
+
 ## スクリプトの登録
 
 仕上げに、`npm run` コマンドでバンドルできるようにスクリプトを追加します。
@@ -221,6 +231,7 @@ my-project
         // ...
         "build:develop": "node bin/bundle.mjs develop",
         "build:release": "node bin/bundle.mjs release",
+        "build:clean": "rimraf dist",
         // ...
     }
 }
