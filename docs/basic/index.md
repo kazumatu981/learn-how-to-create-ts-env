@@ -17,7 +17,7 @@ Node.js と Visual Studio Codeをインストールします。
 
 次に、TypeScriptを翻訳して、JavaScriptに翻訳(トランスパイル)できる環境を構築します。
 `npm` のパッケージ `typescript` をインストールします。
-この`typescript` だけで翻訳することができます。
+今回の環境では、`typescript`は型チェックに使います。
 
 [詳しく見る>>](./init-typescript.md)
 
