@@ -9,10 +9,10 @@ TypeScriptのライブラリを開発する場合、そのライブラリがい�
 
 ```typescript title="簡単なテストコード"
 test('4 + 7 = 11 になるはず', () => {
-    const expected = 11
-    const actual = Calculator.add(4, 7);
+  const expected = 11
+  const actual = Calculator.add(4, 7);
 
-    expect(actual).toEqual(expected);
+  expect(actual).toEqual(expected);
 });
 ```
 
@@ -45,13 +45,13 @@ npx ts-jest config:init
 
 ```text :no-line-numbers
 my-project
- + dist
- + node_modules
- + src
- + jest.config.js   // [!code ++]
- + package-lock.json
- + package.json
- + tsconfig.json
+  + dist
+  + node_modules
+  + src
+  + jest.config.js   // [!code ++]
+  + package-lock.json
+  + package.json
+  + tsconfig.json
 ```
 
 このように、ルートディレクトリに、 `jest.config.js` が出力されました。
@@ -79,20 +79,82 @@ export default {
 
 ## Jestの型情報をインストール
 
+テストコードを書くためには、テストフレームワークの型情報が必要になります。
+これらの型情報は `@types/jest` と `@jest/globals` というライブラリにあります。
+
+`npm install` コマンドでこれらをインストールしましょう。
+
 ```bash :no-line-numbers
 npm install -D @types/jest @jest/globals
 ```
 
+## テスト対象コードを書く
+
+テスト対象となるライブラリを記述します。
+ここでは簡単のために、引数でもらった2つの変数を足し合わせ、どちらかが負であれば例外が発生する関数を実装します。
+
+```typescript title="src/mathOperator.ts"
+export function add(a:number, b:number):number {
+  if( a < 0 || b < 0) {
+    throw new Error('負の数は扱えません');
+  }
+  return a + b;
+}
+```
+
 ## 試しにテストコードを書いてみる
 
+それでは、作成した `add()` 関数が、期待通り実装されているかを確認します。
+`add()`に様々な引数を渡してみて、期待通りに動作するかを確認します。
+
+例えば、 `1` と `2` を引数に渡すと `3` になるはずです。
+
+```typescript title='__tests__/mathOperator.test.ts'
+import {describe, test, expect} from '@jest/globals';
+import {add} from '../src/mathOperator';
+
+describe('add()のテストをします', ()=>{
+  test('正の数は足し算できます 1 + 2 =3', ()=>{
+    const expected = 3
+    const actual = add(1, 2);
+    expect(actual).toEqual(expected); 
+  });
+  test('正の数は足し算できます 1 + 0 =1', ()=>{
+    const expected = 1
+    const actual = add(1, 0);
+    expect(actual).toEqual(expected); 
+  });
+  test('負の数があると例外です: 第一引数', ()=>{
+    expect(()=>{
+    add(-21, 3);
+    }).toThrow();
+  });
+  test('負の数があると例外です: 第二引数', ()=>{
+    expect(()=>{
+      add(1, -1);
+    }).toThrow();
+  });
+  test('負の数があると例外です: 両方', ()=>{
+    expect(()=>{
+      add(-21, -30);
+    }).toThrow();
+  });
+
+});
+```
 
 | Jestの型     | 機能概要                                                                |
 | ------------ | ----------------------------------------------------------------------- |
 | `describe`   | 複数のテストをまとめて一塊とする関数                                    |
 | `it`, `test` | テスト一件分を表す関数                                                  |
-| `expect`     | テスト結果を評価して、評価の結果不正であれば例外を`throw`するライブラリ |
-|              |                                                                         |
+| `expect`     | テスト結果を評価して、評価の結果不正であれば例外を`throw`するメソッド |
+
+このように、Jest の関数を呼び出すことで、実装した関数の妥当性を確認していきます。
 
 ## テストを実行してみる
+
+```bash :no-line-numbers
+npx jest
+```
 
 ## Visual Studio Code をJestデバッグ環境にする
