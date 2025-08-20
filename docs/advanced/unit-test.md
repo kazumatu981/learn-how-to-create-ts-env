@@ -153,8 +153,41 @@ describe('add()のテストをします', ()=>{
 
 ## テストを実行してみる
 
+`npx`コマンドで `jest` を実行すると、 `*.test.js` で定義しているテストコードをすべて実行します。
+
 ```bash :no-line-numbers
 npx jest
 ```
 
+実行結果は以下の通りです。
+
+```text :no-line-numbers
+ PASS  __tests__/mathOperator.test.ts
+  add()のテストをします
+    √ 正の数は足し算できます 1 + 2 =3 (7ms)
+    √ 正の数は足し算できます 1 + 0 =1 (2 ms)
+    √ 負の数があると例外です: 第一引数 (14 ms)
+    √ 負の数があると例外です: 第二引数 (2 ms)
+    √ 負の数があると例外です: 両方 (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        3.943 s
+Ran all test suites.
+```
+
+すべて期待通り動作したことを示しています。
+途中で例外が発生したり、問題があった旨のメッセージが出ていると期待通り動作していないということになります。
+
 ## Visual Studio Code をJestデバッグ環境にする
+
+なお、 Visual Studio Codeでは、Jestの公式拡張機能がリリースされています。
+これを使うと、テスト中にブレークポイントを仕掛けて、デバッグ実行ができます。
+
+<VPCard
+  title="Jest"
+  link="https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest"
+  image="https://orta.gallerycdn.vsassets.io/extensions/orta/vscode-jest/6.4.4/1751245458454/Microsoft.VisualStudio.Services.Icons.Default"
+  description="Use Facebook's Jest With Pleasure."
+/>
