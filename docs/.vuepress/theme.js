@@ -51,8 +51,26 @@ const sidebar = [
         ]
     },
     {
-        text: '`tsconfig.json`の設定',
-        link: 'tsconfig/index.html'
+        icon: 'gear',
+        text: '目的別設定例',
+        link: 'configuration/index.html',
+        children: [
+            {
+                icon:'desktop',
+                text:'Webアプリ(IIFE)',
+                link:'configuration/web-app-iife.html',
+            },
+            {
+                icon:'desktop',
+                text:'Webアプリ(ESModules)',
+                link:'configuration/web-app-esm.html',
+            },
+            {
+                icon:'server',
+                text:'Node.jsアプリ',
+                link:'configuration/nodejs-app.html',
+            },
+        ]
     }
 ];
 
