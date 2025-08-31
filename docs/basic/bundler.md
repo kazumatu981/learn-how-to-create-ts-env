@@ -85,6 +85,7 @@ const commonConfig = {
     outbase: 'src',
     entryNames: '[dir]/[name]-bundle',
     bundle: true,                   // バンドルする
+    format: 'iife',
     logLevel: 'info',
 };
 
@@ -111,22 +112,29 @@ export const developConfig = {
 設定は以下を意味します。
 
 * 共通設定
-  * エントリポイント(入口)の設定 HTMLから読み込みたいスクリプト
-  * 出力ファイル名は、`<名前>-bundle.js` 形式とする
-  * `import`/`export`を解決してバンドルとする
-  * バンドル中はコンソールにログを出力する
+  * `entryPoints`: エントリポイント(入口)の設定 HTMLから読み込みたいスクリプト
+  * `entryNames`: 出力ファイル名は、`<名前>-bundle.js` 形式とする
+  * `bundle`: `import`/`export`を解決してバンドルとする
+  * `format`: ブラウザで使用する`iief`形式 (*Classic JavaScript形式*) で出力する
+  * `logLevel`: バンドル中はコンソールにログを出力する
 * release設定
-  * **圧縮する**
-  * `dist/bundle/release`に出力する
+  * `minify`: **圧縮する**
+  * `outdir`: `dist/bundle/release`に出力する
 * develop設定
-  * 圧縮はしない
-  * ソースマップをコメントとして出力する(Chromeの開発者モードでデバックをTypeScriptで実行できる)
-  * `dist/bundle/develop`に出力する
+  * `minify`: 圧縮はしない
+  * `sourcemap`: ソースマップをコメントとして出力する(ブラウザの開発者モードでデバックをTypeScriptで実行できる)
+  * `outdir`: `dist/bundle/develop`に出力する
 
 そのほかにも多くの設定があります。
 詳細は
 [こちら](https://esbuild.github.io/api/#overview)
 をご参照ください。
+
+:::tip
+
+ここで `format: 'iief'` としましたが、これが最終的に出力するJavaScriptの形式になります。
+この値を`esm`変更することで、ESModules形式で出力できるようになります。
+:::
 
 ## 試しに実行してみる
 
