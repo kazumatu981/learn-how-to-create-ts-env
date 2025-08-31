@@ -7,14 +7,14 @@ TypeScript から ECMAScriptのモジュールを生成する環境の構築す�
 > 本手順書で示すコマンドは、 `bash` 形式です。
 > Windows のコマンドラインやPowerShellをお使いの場合はそちらに翻訳して解釈してください。
 
-## 前提ソフトウェアをインストールする
+## ::download:: 前提ソフトウェアをインストールする
 
 まずは、環境に最低限必要なソフトウェアをインストールします。
 Node.js と Visual Studio Codeをインストールします。
 
 [詳しく見る>>](./install.md)
 
-## TypeScriptトランスパイル環境を作成する
+## ::spell-check:: 型チェック環境を作成する
 
 次に、TypeScriptを翻訳して、JavaScriptに翻訳(トランスパイル)できる環境を構築します。
 `npm` のパッケージ `typescript` をインストールします。
@@ -22,7 +22,7 @@ Node.js と Visual Studio Codeをインストールします。
 
 [詳しく見る>>](./init-typescript.md)
 
-## バンドラ作成環境を構築する
+## ::boxes-packing:: バンドラ作成環境を構築する
 
 TypeScriptの出力は一般的に ECMAScript です。
 ブラウザで使用する場合は、以下のように`type="module"`が必要になります。
