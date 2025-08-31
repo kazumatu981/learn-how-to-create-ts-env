@@ -1,0 +1,17 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "words": [
+        // コンポーネント名
+        "esbenp.prettier-vscode",
+        // プロパティ名
+        "outbase",
+    ],
+    "ignorePaths": [
+        "node_modules",
+        "dist",
+        "sandbox",
+        "package-lock.json",
+        "package.json",
+    ]
+}

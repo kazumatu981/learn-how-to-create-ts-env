@@ -1,0 +1,329 @@
+# バンドラ作成環境を構築する
+
+仕上げに、TypeScriptをバンドルしてHTMLからアクセスする手順を示します。
+バンドラ（bundler） は、複数のJavaScriptファイルやCSS、画像などのWebアセットを、ひとつのファイル（または少数のファイル）にまとめるツールです。
+
+現代のWeb開発では、コードをモジュール化して管理するのが一般的です。
+たとえば、機能ごとにファイルを分けたり、外部ライブラリを使ったりします。
+しかし、ブラウザはそのままではモジュールを効率よく読み込めないことがあります。
+バンドラが果たす役割は以下の通りです。
+
+* ::arrow-down-short-wide /indigo:: 依存関係を解析して、必要な順序でコードをまとめる
+* ::scissors /indigo:: 不要なコードを除去（Tree Shaking）
+* ::arrows-down-to-line /indigo:: 圧縮・最適化して読み込みを高速化
+
+長年 `webpack` というパッケージが一般的でしたが、近年 `esbuild` が洗練されており高速に動作することから、急速に人気を集め始めました。
+ここの手順では `esbuild` を使用します。
+
+それでは、早速プロジェクトにインストールです。
+いつものように、`npm install` コマンドでインストールします。
+
+```bash :no-line-numbers
+npm install -D esbuild
+```
+
+## ビルドスクリプトの作成
+
+`esbuild` はCLIを持っていますが、今回は後々のことも考えて、独自に **バンドルスクリプト** を記述して、バンドルする方式を紹介します。
+
+### 構成
+
+**バンドルスクリプト** は特に決まりがありません。
+以下の考え方からES Module形式のスクリプトとして、ソースのディレクトリ構造に埋め込みます。
+
+* ソースコードとバンドルスクリプトが混同しないようにする
+* ほかのツールと同様設定ファイルをルートディレクトリに配置する。
+
+```text :no-line-numbers
+my-project
+ + .vscode
+ + bin                  // [!code ++]
+ |  + bundle.mjs        // [!code ++]
+ + dist
+ + node_modules
+ + src
+ + ...
+ + esbuild.config.mjs  // [!code ++]
+ + ...
+ + package.json
+ + tsconfig.json
+```
+
+ルートディレクトリに `bin` というフォルダを作成して、そこにバンドルスクリプト(`bundle.mjs`)を配置します。
+`esbuild.config.mjs` にはこのプロジェクトのビルドオプションを記述します。
+
+### バンドルスクリプト本体: `bundle.mjs`
+
+バンドルスクリプトは以下のように記述します。
+
+```javascript title="bin/bundle.mjs"
+import * as esbuild from 'esbuild';
+import {releaseConfig, developConfig} from '../esbuild.config.mjs';
+
+const mode = process.argv[2];
+console.log(`bundle TypeScript sources: ${mode} mode`);
+
+// 設定を読み取る
+const config = mode === 'release' ? releaseConfig : developConfig;
+
+// ビルドを実行する
+await esbuild.build(config);
+```
+
+* バンドル本体は `await esbuild.build(config)` で行う
+* コマンド引数で `release` モードと `develop` モードの二つのモードを準備する
+* バンドルの設定は `esbuild.config.mjs` にJSONオブジェクトとして定義しておく
+
+### バンドル設定ファイル: `esbuild.config.mjs`
+
+設定ファイルには、ビルド設定を記述します。
+
+```javascript title="esbuild.config.mjs"
+// 共通設定
+const commonConfig = {
+    entryPoints: ['src/home.ts'],   // バンドルしたいライブラリのエントリポイント
+    outbase: 'src',
+    entryNames: '[dir]/[name]-bundle',
+    bundle: true,                   // バンドルする
+    format: 'iife',
+    logLevel: 'info',
+};
+
+// release モード時の設定
+export const releaseConfig = {
+    ...commonConfig,
+    ...{
+        minify: true,                   // ソース圧縮あり
+        outdir: 'dist/bundle/release',
+    },
+};
+
+// develop モード時の設定
+export const developConfig = {
+    ...commonConfig,
+    ...{
+        minify: false,                  // ソース圧縮なし
+        sourcemap: 'inline',            // ソースマップをバンドル内に
+        outdir: 'dist/bundle/develop',
+    },
+};
+```
+
+設定は以下を意味します。
+
+* 共通設定
+  * `entryPoints`: エントリポイント(入口)の設定 HTMLから読み込みたいスクリプト
+  * `entryNames`: 出力ファイル名は、`<名前>-bundle.js` 形式とする
+  * `bundle`: `import`/`export`を解決してバンドルとする
+  * `format`: ブラウザで使用する`iief`形式 (*Classic JavaScript形式*) で出力する
+  * `logLevel`: バンドル中はコンソールにログを出力する
+* release設定
+  * `minify`: **圧縮する**
+  * `outdir`: `dist/bundle/release`に出力する
+* develop設定
+  * `minify`: 圧縮はしない
+  * `sourcemap`: ソースマップをコメントとして出力する(ブラウザの開発者モードでデバックをTypeScriptで実行できる)
+  * `outdir`: `dist/bundle/develop`に出力する
+
+そのほかにも多くの設定があります。
+詳細は
+[こちら](https://esbuild.github.io/api/#overview)
+をご参照ください。
+
+:::tip
+
+ここで `format: 'iief'` としましたが、これが最終的に出力するJavaScriptの形式になります。
+この値を`esm`変更することで、ESModules形式で出力できるようになります。
+:::
+
+## 試しに実行してみる
+
+それでは、実際どのようにバンドルされるのかを試します。
+
+### テスト用コードの追加
+
+```text :no-line-numbers
+my-project
+ + ...
+ + dist
+ + node_modules
+ + src
+ |  + hello.ts  // [!code ++]
+ |  + home.ts   // [!code ++]
+ + ....
+```
+
+`src`に以下のようなソースコードを配置してください。
+
+```javascript title="src/hello.ts"
+export function sayHello(id: string, name: string): void {
+    const helloDom = document.getElementById(id) as HTMLDivElement | null;
+    if (helloDom) {
+        helloDom.textContent = `こんにちは ${name} さん`;
+    } else {
+        console.error('要素が見つかりません');
+    }
+}
+```
+
+```javascript title="src/home.ts"
+import {sayHello} from './hello';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const button = document.getElementById(
+        'myButton'
+    ) as HTMLButtonElement | null;
+    const textInput = document.getElementById(
+        'myInput'
+    ) as HTMLInputElement | null;
+
+    if (button && textInput) {
+        button.addEventListener('click', () => {
+            const yourName = textInput.value;
+            sayHello('greetingArea', yourName);
+        });
+    }
+});
+```
+
+どんな内容でも構いませんが、今回は、`import`/`export`を解決する様子を見るために、二つのソースファイルを準備しました。
+内容としては、ボタンをクリックしたら、インプットの内容をで文を作成して画面上に出力するという簡単なものです。
+
+### ビルドの実行
+
+TypeScriptの準備ができたら、 `develop` モードでバンドルです。
+
+```bash :no-line-numbers
+node bin/bundle.mjs develop
+```
+
+### 結果の確認
+
+内容を確認しましょう。
+`dist/bundle/develop` にバンドルが作成されていることが確認できます。
+
+```text :no-line-numbers
+my-project
+ + ...
+ + dist/bundle/develop // [!code ++]
+ +  + home-bundle.js   // [!code ++]
+ + src
+ |  + hello.ts
+ |  + home.ts
+ + ....
+```
+
+エディタで開くと、TypeScriptの型情報がなくなり、`import`/`export`もなくなっていることが確認できます。
+また同様に `release` モードで実行すると、バンドルのサイズが十分小さくなるのが確認できます。
+
+## クリーン用パッケージのインストール <Badge text="オプション" type="tip" vertical="top" />
+
+オプションとして、古いビルド成果物をクリーンするためのパッケージをインストールします。
+`rimraf` は簡単にディレクトリを再帰的に削除するパッケージです。
+`npm run build:clean` として、`dist` 以下を削除するようにします。
+
+```bash :no-line-numbers
+npm install -D rimraf
+```
+
+## スクリプトの登録
+
+仕上げに、`npm run` コマンドでバンドルできるようにスクリプトを追加します。
+
+```json title="package.json"
+{
+    "name": "my-project",
+    "version": "1.0.0",
+    // ...
+    "scripts": {
+        // ...
+        "build:develop": "node bin/bundle.mjs develop",
+        "build:release": "node bin/bundle.mjs release",
+        "build:clean": "rimraf dist",
+        // ...
+    }
+}
+```
+
+これで、`npm run build:develop` / `npm run build:release`  でバンドルができるようになりました。
+
+::: warning
+ここで、`typescript` のビルド成果を使わないことに注目してください。
+つまり、`esbuild` は`typescript`を独自にビルドしています。
+ここで「ビルド」と記述しましたが、`esbuild` では、型チェックは行いません。
+型チェックは必ず
+[TypeScriptトランスパイル環境を作成する](./init-typescript.md)
+で準備した `npm run build:check` を使うようにしてください。
+:::
+
+## さいごに
+
+### ページを作って試しに動作させてみよう
+
+それでは、作成したバンドルが動作するかを確認します。
+バンドルを呼び出す `HTML` を作成します。
+
+以下のように、`pages` の下に`HTML`のソースを配置してください。
+
+```text :no-line-numbers
+my-project
+ + ...
+ + dist/bundle/develop
+ +  + home-bundle.js
+ + src
+ + pages            // [!code ++]
+ |  + home.html     // [!code ++]
+ + ....
+```
+
+```html /myInput/ /myButton/ /greetingArea/ title="pages/home.html"
+<!doctype html>
+<html>
+    <head> </head>
+    <body>
+        <input type="text" id="myInput" />
+        <button id="myButton">click me</button>
+        <div id="greetingArea"></div>
+        <script src="../dist/bundle/develop/home-bundle.js"></script> // [!code highlight]
+    </body>
+</html>
+```
+
+HTMLでは、TypeScriptで参照している `id` を使うようにして、バンドラで生成したバンドルを参照するようにしましょう。
+
+### VS Codeで小さいWebサーバを起動する <Badge text="オプション" type="tip" vertical="top" />
+
+作成したHTMLのプレビューは、VS Codeの拡張機能を使えば、Code上でプレビューできます。
+Microsoft が提供している Live Preview を使うと、localhostに小さなWebサーバを構築できます。
+
+<VPCard
+  title="Live Preview"
+  link="https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server"
+  image="https://ms-vscode.gallerycdn.vsassets.io/extensions/ms-vscode/live-server/0.5.2025063001/1751275524005/Microsoft.VisualStudio.Services.Icons.Default"
+  description=
+    "Hosts a local server in your workspace for you to preview your webpages on."
+/>
+
+### ページが増える場合
+
+この後、ページが増えて、開発が進むと、それに伴いスクリプトも増加します。
+エントリポイント(入口)もページ合わせて増加します。
+エントリポイントが増えたら、`esbuild.config.mjs` の `entryPoints` にファイルを追加していきましょう。
+
+```javascript title="esbuild.config.mjs"
+
+// 共通設定
+const commonConfig = {
+    entryPoints: [
+        'src/home.ts',
+        'src/login.ts',   // [!code ++]
+        'src/user.ts',    // [!code ++]
+        ],
+    outbase: 'src',
+    entryNames: '[dir]/[name]-bundle',
+    bundle: true,                   // バンドルする
+    logLevel: 'info',
+};
+
+// ....
+```
