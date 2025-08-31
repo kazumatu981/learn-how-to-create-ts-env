@@ -2,7 +2,7 @@
 
 <!-- TODO 内容を見直す  -->
 本書では、オープンソースを活用して、TypeScriptの開発環境を整備する方法を紹介します。
-TypeScript から ECMAScriptのモジュールを生成する環境の構築する環境とブラウザで利用できるJavaScriptバンドラを作成する環境を構築する手順を紹介します。
+TypeScript からブラウザで利用できるJavaScriptバンドラを作成する環境を構築する手順を紹介します。
 
 > 本手順書で示すコマンドは、 `bash` 形式です。
 > Windows のコマンドラインやPowerShellをお使いの場合はそちらに翻訳して解釈してください。
@@ -16,9 +16,15 @@ Node.js と Visual Studio Codeをインストールします。
 
 ## ::spell-check:: 型チェック環境を作成する
 
-次に、TypeScriptを翻訳して、JavaScriptに翻訳(トランスパイル)できる環境を構築します。
+次に、TypeScript の文法を解釈して型情報を確認する環境を整備します。
 `npm` のパッケージ `typescript` をインストールします。
 今回の環境では、`typescript`は型チェックに使います。
+
+::: tip
+一般的に `typescript` は TypeScriptからJavaScriptへの翻訳(トランスパイル)を担いますが、
+`esbuild`にはバンドルとともにトランスパイルも同時に行います。
+したがって、**本手順ではトランスパイルは`esbuild`に委譲します。**
+:::
 
 [詳しく見る>>](./init-typescript.md)
 
