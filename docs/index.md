@@ -26,6 +26,7 @@ TypeScript はビルドすると JavaScript に変換されます。
 
 それでは始めましょう。[>>早速、はじめる](./basic/index.md)
 
-また、`CommonJS`形式や`ESModules` 形式のライブラリは、この環境の設定を変えれば実装できます。
+::: tip
+`CommonJS`形式や`ESModules` 形式のライブラリは、この環境の設定を変えれば実装できます。
 詳細は [こちら](./configuration/index.md) をご参照ください。
-
+:::
