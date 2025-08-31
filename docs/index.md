@@ -19,5 +19,14 @@ TypeScript はビルドすると JavaScript に変換されます。
 
 ## 本ドキュメントが目指す開発環境
 
-<!-- TODO Webアプリケーションを作りますという感じで記事を書く -->
-<!-- TODO IIFE 形式で出力する -->
+本書が目指すTypeScript開発環境は、以下のような `JavaScript` を開発する環境です。
+
+1. `HTML`と同期的にロードされて、DOM要素を操作する `Classic JavaScript`
+2. ローコード製品のプラグインで **IIFE形式**の `JavaScript`
+
+それでは始めましょう。[>>早速、はじめる](./basic/index.md)
+
+::: tip
+`CommonJS`形式や`ESModules` 形式のライブラリは、この環境の設定を変えれば実装できます。
+詳細は [こちら](./configuration/index.md) をご参照ください。
+:::
